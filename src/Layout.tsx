@@ -7,7 +7,7 @@ export function Layout() {
     <>
         <SidebarProvider>
             <AppSidebar />
-            <main>
+            <main className="p-8">
                 {/* <SidebarTrigger /> */}
                 <Outlet />
             </main>

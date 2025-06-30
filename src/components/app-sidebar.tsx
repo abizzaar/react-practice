@@ -15,13 +15,17 @@ import { NavLink } from "react-router"
 
 const items = [
 {
-    title: "Home",
-    url: "/",
+  title: "Home",
+  url: "/",
 },
 {
-    title: "Page Two",
-    url: "/two",
+  title: "Page Two",
+  url: "/two",
 },
+{
+  title: "Questions",
+  url: "/questions"
+}
 ]
 
 // Wrapper component to handle active state

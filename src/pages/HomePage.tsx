@@ -6,7 +6,7 @@ export function HomePage() {
   const [count, setCount] = useState(0)
   
   return (
-    <div className="p-8">
+    <div>
       <div className="flex gap-4">
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
