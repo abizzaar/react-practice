@@ -11,21 +11,33 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-import { Apple, Grape } from "lucide-react" 
-import { Link } from "react-router"
+import { NavLink } from "react-router"
 
 const items = [
 {
-    title: "Apple",
+    title: "Home",
     url: "/",
-    icon: Apple,
 },
 {
-    title: "Grape",
+    title: "Page Two",
     url: "/two",
-    icon: Grape,
 },
 ]
+
+// Wrapper component to handle active state
+function SidebarNavLink({ item }: { item: typeof items[0] }) {
+  return (
+    <NavLink to={item.url} end={item.url === "/"}>
+      {({ isActive }) => (
+        <SidebarMenuButton asChild isActive={isActive}>
+          <div>
+            <span>{item.title}</span>
+          </div>
+        </SidebarMenuButton>
+      )}
+    </NavLink>
+  )
+}
 
   export function AppSidebar() {
     return (
@@ -38,12 +50,7 @@ const items = [
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link to={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
+                  <SidebarNavLink item={item} />
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
