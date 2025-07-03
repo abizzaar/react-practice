@@ -1,14 +1,22 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { TaskItem } from "./TaskItem";
 import { useTasks } from "@/hooks/useTasks";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { FILTER_VALUES, type Filter } from "@/types/Filter";
+import { capitalize } from "@/utils/capitalize";
+import { Input } from "@/components/ui/input";
+import { useFilteredTasks } from "@/hooks/useFilteredTasks";
 
 
 export function TaskList() {
     const [input, setInput] = useState("");
     const [filterInput, setFilterInput] = useState("")
+    const [filterSelect, setFilterSelect] = useState<Filter>(FILTER_VALUES[0])
 
     const { tasks, addTask, removeTask, toggleDone } = useTasks()
+
+    const filteredTasks = useFilteredTasks(tasks, filterSelect, filterInput)
 
     const handleAddTask = () => {
         if (!input.trim()) return;
@@ -19,12 +27,6 @@ export function TaskList() {
     const handleRemoveTask = (id: number) => {
         removeTask(id)
     };
-
-    const visibleTasks = useMemo(() => {
-        return tasks.filter(t => {
-            return t.title.toLowerCase().includes(filterInput.toLowerCase())
-        });
-    }, [filterInput, tasks]);
 
     return (
         <>
@@ -37,14 +39,28 @@ export function TaskList() {
                 of the conversation.
             </p>
             <div className="mt-10">
-                <div>
-                    <input value={input} onChange={e => setInput(e.target.value)} className="border border-input px-2" />
+                <div className="flex">
+                    <Input value={input} onChange={e => setInput(e.target.value)} className="max-w-sm"/>
                     <Button className="ml-2" onClick={handleAddTask}>Add Task</Button>
                 </div>
-                <input className="mt-2 border border-input px-2" placeholder="Filter tasks..." value={filterInput} onChange={e => setFilterInput(e.target.value)} />
+                <div className="flex mt-2">
+                    <Input className="max-w-36" placeholder="Filter tasks..." value={filterInput} onChange={e => setFilterInput(e.target.value)} />
+                    <Select value={filterSelect} onValueChange={setFilterSelect}>
+                        <SelectTrigger className="ml-2">
+                            <SelectValue placeholder="Select a filter"></SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                {
+                                    FILTER_VALUES.map(f => <SelectItem key={f} value={f}>{capitalize(f)}</SelectItem>)
+                                }
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
                 <ul className="mt-3">
-                    {visibleTasks.map(task => (
-                        <TaskItem key={task.id} task={task} onRemove={handleRemoveTask} onCheck={toggleDone} />
+                    {filteredTasks.map(task => (
+                        <TaskItem key={task.id} task={task} onRemove={handleRemoveTask} onCheckToggle={toggleDone} />
                     ))}
                 </ul>
             </div>

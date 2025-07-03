@@ -9,7 +9,9 @@ const questions = [
     'What are the best practices for setting variables with Tailwind, for a design system?',
     'What is the "data-[state=checked]" pattern?',
     'What are best practices for forms in React?',
-    'What accessibility considerations are important for the web?'
+    'What accessibility considerations are important for the web?',
+    'Why does Radix organize its classes as it does? What is its design philosophy?',
+    'What is the idiomatic way to manage variables with dark mode?'
 ]
 
 export function Questions() {

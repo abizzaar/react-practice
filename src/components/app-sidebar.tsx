@@ -19,8 +19,8 @@ const items = [
   url: "/",
 },
 {
-  title: "Page Two",
-  url: "/two",
+  title: "LLM Evals",
+  url: "/llm-evals"
 },
 {
   title: "Task List",
